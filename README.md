@@ -1,92 +1,92 @@
 # Regulatory Impact Analyser
 
-An AI-powered tool that helps financial institutions rapidly assess the impact of regulatory changes on their internal data landscape — mapping new or amended regulations to existing data elements, systems, and compliance gaps.
+A tool that helps financial institutions assess the data impact of regulatory changes — extracting data elements and obligations from regulatory text and mapping them against an institution's existing data dictionary to surface gaps.
 
 ---
 
 ## Problem
 
-When regulators publish new rules (Basel 3.1, DORA, climate risk disclosures, Reg K amendments), compliance and data teams at banks face a manual, time-intensive process to:
-- Parse dense regulatory text
-- Identify which data elements are newly required or redefined
-- Map those elements against internal data dictionaries and system schemas
-- Prioritise remediation work
+When regulators publish new or amended rules, compliance and data teams at banks must manually work through dense regulatory text to identify which data elements are newly required, redefined, or affected. That output then needs to be cross-referenced against internal data dictionaries and system inventories before any remediation work can begin.
 
-This process typically takes weeks, involves multiple teams, and is prone to gaps. At large institutions, it often runs in parallel silos — legal, compliance, data, and technology — with no single source of truth.
+This process is slow, largely manual, and inconsistent across teams. Legal, compliance, data, and technology functions often work through the same regulation independently, with no shared structured output.
+
+The result is duplicated effort, missed elements, and late discovery of data gaps — often close to regulatory deadlines.
 
 ---
 
 ## What This Tool Does
 
-- **Regulatory Parser** — Ingests regulatory documents (eCFR, PDF, XML) and extracts structured data elements, definitions, and obligations
-- **Gap Mapper** — Compares extracted regulatory requirements against a bank's existing data dictionary
-- **Impact Reporter** — Produces a prioritised gap report showing what data is missing, redefined, or at risk
-- **On-Premise Ready** — Designed to run within a bank's secure environment; no data leaves the institution
+- **Regulatory Parser** — Ingests regulatory text from the eCFR API and extracts structured sections, definitions, and obligations
+- **Data Element Extractor** — Identifies reportable data fields and their obligation types (mandatory, permissive, prohibited) from regulatory language
+- **Gap Mapper** — Compares extracted elements against a bank's data dictionary and flags missing, partial, or redefined fields
+- **Gap Report** — Outputs a structured, prioritised gap report in CSV format for review by compliance and data teams
 
-## Target Users
+**Deployment model:** Designed to run within an institution's own environment. No regulatory text or internal data is sent to external services during analysis.
 
-Compliance officers, data governance teams, and regulatory change management functions at Tier 1–3 banks and building societies.
+---
+
+## Who It Is For
+
+Regulatory change management, data governance, and compliance functions at financial institutions — particularly teams that currently manage this process manually in spreadsheets.
 
 ---
 
 ## Product Roadmap
 
 ### MVP — Pilot (Now → Month 6)
-*Goal: Prove core value with a single regulation in a controlled environment*
+*Objective: Demonstrate end-to-end gap identification for a single regulation against a sample data dictionary*
 
 | Feature | Description |
 |---|---|
-| eCFR Regulatory Parser | Ingest and parse US federal regulations via the eCFR API (Title 12 pilot) |
-| Data Element Extractor | LLM-assisted extraction of reportable fields, definitions, and obligation types (must/shall/may) |
-| CSV Data Dictionary Ingestion | Accept a bank's existing data dictionary as a flat CSV/Excel file |
-| Gap Identification Engine | Match extracted regulatory elements against the data dictionary; flag missing, partial, or redefined fields |
-| Confidence Scoring | Assign a match confidence score (0–1) to each mapped element |
-| Gap Report Output | Export prioritised gap report as CSV with element name, section reference, gap type, and recommended action |
-| Reg K Pilot Coverage | Full coverage of Title 12 CFR Part 211 (Regulation K) as the pilot regulation |
+| eCFR Regulatory Parser | Fetch and parse US federal regulations via the eCFR API; extract section structure and text |
+| Data Element Extractor | Extract reportable fields, definitions, and obligation types from regulatory text using an LLM |
+| CSV Data Dictionary Ingestion | Accept an institution's data dictionary as a flat CSV or Excel file |
+| Gap Identification | Match extracted regulatory elements against the data dictionary; classify each as matched, partial, or missing |
+| Confidence Scoring | Assign a match confidence score to each mapped element based on field name and definition similarity |
+| Gap Report (CSV) | Export a structured gap report with element name, regulation section, gap classification, confidence score, and notes |
+| Reg K Pilot | End-to-end pipeline validated against Title 12 CFR Part 211 (Regulation K) as the pilot regulation |
 
 ---
 
 ### Release 1 — Early Adopter (Month 6 → Month 12)
-*Goal: Expand regulation coverage, harden the pipeline, onboard first paying clients*
+*Objective: Harden the pipeline, expand regulation coverage, and make it usable by non-technical compliance staff*
 
 | Feature | Description |
 |---|---|
-| Multi-Regulation Support | Support Basel 3.1 and DORA in addition to Reg K |
-| PDF Regulatory Ingestion | Parse regulations distributed as PDF (EU/UK regulatory formats) |
-| Amendment Delta Detection | Compare two versions of a regulation and surface only what changed — reduces noise for established teams |
-| Data Dictionary Connector | Native connectors for common bank data catalogue formats (Collibra, IBM IGC CSV exports) |
-| Obligation Classification | Classify each element by obligation type: reporting, capital, liquidity, conduct |
-| Prioritisation Engine | Rank gaps by regulatory deadline, data criticality, and system ownership |
-| User Dashboard (Web UI) | Browser-based interface for compliance teams to review, filter, and annotate gap reports |
-| Audit Trail | Immutable log of every analysis run — regulation version, dictionary version, output hash |
-| Role-Based Access | Separate views for compliance analyst, data owner, and senior reviewer |
-| On-Premise Deployment Package | Docker-based deployment; runs entirely within the institution's network |
+| Basel 3.1 Parser | Extend the parser to cover Basel 3.1 capital and reporting requirements |
+| DORA Parser | Add coverage for the EU Digital Operational Resilience Act (DORA) data obligations |
+| PDF Ingestion | Parse regulatory documents distributed as PDF, for regulations not available via structured APIs |
+| Amendment Delta Detection | Given two versions of a regulation, identify only what changed — reduces re-analysis effort when amendments are minor |
+| Obligation Classification | Tag each extracted element by obligation category: reporting, capital, liquidity, or operational |
+| Prioritisation Engine | Rank identified gaps by regulatory deadline and data field criticality |
+| Web UI | Browser-based interface for compliance analysts to review, filter, comment on, and export gap reports — no command line required |
+| Versioned Audit Log | Record of each analysis run including regulation version used, dictionary version, and output — for internal governance purposes |
+| Role-Based Access | Separate access levels for analyst, data owner, and approver |
+| On-Premise Deployment | Docker-based packaging so the tool runs entirely within the institution's infrastructure |
 
 ---
 
-### Release 2 — Scale (Year 2)
-*Goal: Become the system of record for regulatory data impact tracking*
+### Release 2 — Expansion (Year 2)
+*Objective: Broaden regulation coverage, deepen integration with bank workflows, and reduce time-to-analysis further*
 
 | Feature | Description |
 |---|---|
-| Regulation Watch | Automated monitoring of eCFR, FCA, EBA, and BIS feeds; alerts when a tracked regulation is amended |
-| Full Regulation Library | Pre-built parsers for 20+ regulations across US, EU, and UK jurisdictions |
-| Historical Impact Archive | Track how a regulation's data requirements have evolved across versions over time |
-| System Lineage Mapping | Map regulatory elements not just to data dictionary fields but to upstream source systems |
-| Remediation Workflow | Built-in task assignment and tracking for gap remediation — assign to data owner, set deadline, track sign-off |
-| API Layer | REST API so banks can integrate impact analysis into their existing regulatory change management workflows |
-| LLM Fine-Tuning | Fine-tune extraction models on bank-specific data taxonomy for higher accuracy |
-| Multi-Tenant SaaS Option | Cloud-hosted option (data never leaves tenant boundary) for smaller institutions without on-prem infrastructure |
-| Reporting Pack | Automated board-level and regulator-ready summary reports — regulation by regulation exposure summary |
-| SSO & Enterprise Auth | SAML/OIDC integration for enterprise identity providers |
+| Regulation Monitoring | Monitor selected regulatory feeds (eCFR, FCA, EBA) for amendments and notify when a tracked regulation changes |
+| Expanded Regulation Library | Add parsers for additional regulations based on client demand and jurisdiction coverage priorities |
+| Historical Version Tracking | Store and compare regulation versions over time to show how data requirements have evolved |
+| Source System Mapping | Extend gap output to include the upstream system that should supply each data element, not just the dictionary field |
+| Remediation Tracking | Assign gaps to data owners, set target dates, and track progress to closure within the tool |
+| REST API | Allow integration with existing regulatory change management or data governance platforms via API |
+| Extraction Tuning | Improve extraction accuracy for a specific institution's data taxonomy based on feedback from prior analysis runs |
+| Enterprise Auth | SAML/OIDC integration for institutions with existing identity providers |
 
 ---
 
 ## Current Status
 
-🚧 Early-stage prototype — actively in development.
+In development. The eCFR parser and core data models are built. The extraction and gap mapping pipeline is the active workstream.
 
-Pilot focus: **Title 12 CFR Part 211 (Regulation K)** — International Banking Operations
+Pilot regulation: **Title 12 CFR Part 211 (Regulation K)** — International Banking Operations.
 
 ---
 
@@ -94,8 +94,8 @@ Pilot focus: **Title 12 CFR Part 211 (Regulation K)** — International Banking 
 
 - Python 3.11+
 - Regulatory source: [eCFR API](https://www.ecfr.gov/developers/documentation/api/v1)
-- NLP / LLM layer: Anthropic Claude API (on-premise deployment pathway via Claude for Enterprise)
-- Output: CSV / JSON gap reports
+- LLM layer: Anthropic Claude API
+- Output: CSV / JSON
 
 ---
 
@@ -104,17 +104,17 @@ Pilot focus: **Title 12 CFR Part 211 (Regulation K)** — International Banking 
 ```
 regulatory-impact-analyser/
 ├── src/
-│   ├── parsers/        # Regulatory document ingestion (eCFR, PDF, XML)
-│   ├── extractors/     # Data element & definition extraction
+│   ├── parsers/        # Regulatory document ingestion (eCFR, PDF)
+│   ├── extractors/     # Data element and obligation extraction
 │   ├── mappers/        # Gap mapping against data dictionaries
-│   └── models/         # Data models and schemas
+│   └── models/         # Core data models
 ├── data/
 │   ├── raw/            # Source regulatory documents
-│   ├── processed/      # Extracted, structured outputs
-│   └── schemas/        # Reference data dictionary schemas
-├── docs/               # Architecture decisions, research notes
-├── notebooks/          # Exploratory analysis and prototyping
-└── tests/              # Unit and integration tests
+│   ├── processed/      # Structured extraction outputs
+│   └── schemas/        # Sample data dictionary schemas
+├── docs/               # Architecture decisions and design notes
+├── notebooks/          # Exploratory analysis
+└── tests/              # Unit tests
 ```
 
 ---
@@ -122,25 +122,18 @@ regulatory-impact-analyser/
 ## Getting Started
 
 ```bash
-# Clone the repo
 git clone https://github.com/banguralok/regulatory-impact-analyser.git
 cd regulatory-impact-analyser
 
-# Set up environment
 python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+source venv/bin/activate       # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
-# Run the Reg K parser pilot
 python src/parsers/ecfr_parser.py --title 12 --part 211
 ```
 
 ---
 
-## Contributing
+## Contact
 
-This is a pre-seed stage project. If you work in bank compliance, data governance, or regtech and want to collaborate or provide feedback, reach out via GitHub Issues.
-
----
-
-*Built at the intersection of banking technology, regulatory compliance, and applied AI.*
+For questions or feedback, open a GitHub Issue.
